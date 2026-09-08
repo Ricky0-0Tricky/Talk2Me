@@ -37,6 +37,12 @@ namespace Talk2Me.Models
         [Display(Name = "Joining Date")]
         public DateTimeOffset JoinDate { get; set; } = DateTimeOffset.UtcNow;
 
+        // A User can have many Sent Chats (1 -> N)
+        public ICollection<Chat> SentChats { get; set; } = new List<Chat>();
+
+        // A User can have many Received Chats (1 -> N)
+        public ICollection<Chat> ReceivedChats { get; set; } = new List<Chat>();
+
         // A User can have many Messages (1 -> N)
         public ICollection<Message> Messages { get; set; } = new List<Message>();
     }
