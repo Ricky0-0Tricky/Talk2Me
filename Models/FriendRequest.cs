@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Talk2Me.Models
 {
     public class FriendRequest
     {
         [Key]
+        [HiddenInput]
         public Guid RequestId { get; set; } = Guid.NewGuid();
 
         [Required]
