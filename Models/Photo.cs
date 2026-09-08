@@ -16,7 +16,7 @@ namespace Talk2Me.Models
 
         [Display(Name = "Photo")]
         [Required(ErrorMessage = "The Photo is Required.")]
-        public byte[] PhotoFile {  get; set; }
+        public byte[] PhotoFile {  get; set; } = Array.Empty<byte>();
 
         // Many Photos belong to a Comment
         [Required]
