@@ -1,0 +1,36 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+
+namespace Talk2Me.Models
+{
+    /// <summary>
+    /// Represents a reaction on a forum or comment.
+    /// Stores if it was a positive or negative reaction.
+    /// </summary>
+    public class Reaction
+    {
+        [Key]
+        [HiddenInput]
+        public Guid ReactionId { get; set; } = Guid.NewGuid();
+
+        [Display(Name = "Reaction")]
+        [Required(ErrorMessage = "The Upvote State is Required.")]
+        public bool IsUpvote {  get; set; }
+
+        // Many Reactions belong to a Forum
+        public Guid? ForumId { get; set; }
+
+        public Forum? Forum { get; set; } = null!;
+
+        // Many Reactions belong to a Comment
+        public Guid? CommentId { get; set; }
+
+        public Comment? Comment { get; set; } = null!;
+
+        // Many Reactions belong to a User
+        [Required]
+        public Guid UserId { get; set; }
+
+        public User Reactor { get; set; } = null!;
+    }
+}
