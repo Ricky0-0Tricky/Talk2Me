@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Talk2Me.Models.Reaction>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IsUpvote)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Forum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reactor)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsUpvote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Forum.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comment.Content)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reactor.PasswordHash)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ReactionId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ReactionId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ReactionId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

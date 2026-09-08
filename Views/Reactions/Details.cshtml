@@ -1,0 +1,42 @@
+﻿@model Talk2Me.Models.Reaction
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Reaction</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsUpvote)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsUpvote)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Forum)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Forum.State)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Comment.Content)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Reactor)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Reactor.PasswordHash)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ReactionId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
