@@ -7,7 +7,7 @@ namespace Talk2Me.Models
     {
         [Key]
         [HiddenInput]
-        public Guid ReactionId { get; set; }
+        public Guid ReactionId { get; set; } = Guid.NewGuid();
 
         [Display(Name = "Reaction")]
         [Required(ErrorMessage = "The Upvote State is Required.")]

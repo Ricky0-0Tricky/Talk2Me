@@ -7,7 +7,7 @@ namespace Talk2Me.Models
     {
         [Key]
         [HiddenInput]
-        public Guid NotificationId { get; set; }
+        public Guid NotificationId { get; set; } = Guid.NewGuid();
 
         [Required]
         public string Type { get; set; } = string.Empty;

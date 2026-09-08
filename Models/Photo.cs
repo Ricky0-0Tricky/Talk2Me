@@ -7,7 +7,8 @@ namespace Talk2Me.Models
     {
         [Key]
         [HiddenInput]
-        public Guid PhotoId { get; set; }
+        public Guid PhotoId { get; set; } = Guid.NewGuid();
+
 
         [Display(Name = "Photo")]
         [Required(ErrorMessage = "The Photo is Required.")]

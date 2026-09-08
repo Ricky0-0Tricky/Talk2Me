@@ -7,7 +7,7 @@ namespace Talk2Me.Models
     {
         [Key]
         [HiddenInput]
-        public Guid ThemeId { get; set; }
+        public Guid ThemeId { get; set; } = Guid.NewGuid();
 
         [Display(Name = "Theme")]
         [Required(ErrorMessage = "The Theme's Name is Required.")]

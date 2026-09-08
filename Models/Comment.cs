@@ -7,7 +7,7 @@ namespace Talk2Me.Models
     {
         [Key]
         [HiddenInput]
-        public Guid CommentId { get; set; }
+        public Guid CommentId { get; set; } = Guid.NewGuid();
 
         [Required(ErrorMessage = "The Comment's Content is Required.")]
         [StringLength(250, MinimumLength = 3, ErrorMessage = "The Comment's Content should have a minimum of 3 characters.")]

@@ -7,7 +7,7 @@ namespace Talk2Me.Models
     {
         [Key]
         [HiddenInput]
-        public Guid UserId { get; set; }
+        public Guid UserId { get; set; } = Guid.NewGuid();
 
         [Display(Name = "Username")]
         [Required]
@@ -36,5 +36,8 @@ namespace Talk2Me.Models
 
         [Display(Name = "Joining Date")]
         public DateTimeOffset JoinDate { get; set; } = DateTimeOffset.UtcNow;
+
+        // A User can have many Messages (1 -> N)
+        public ICollection<Message> Messages { get; set; } = new List<Message>();
     }
 }

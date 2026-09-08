@@ -7,7 +7,7 @@ namespace Talk2Me.Models
     {
         [Key]
         [HiddenInput]
-        public Guid ForumId { get; set; }
+        public Guid ForumId { get; set; } = Guid.NewGuid();
 
         [Required(ErrorMessage = "The Forum's State is Required.")]
         public string State { get; set; } = "Active";
