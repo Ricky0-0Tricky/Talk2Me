@@ -22,5 +22,9 @@ namespace Talk2Me.Models
         [Display(Name = "Creation Date")]
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
 
+        // Many Notifications belong to a User
+        public Guid UserId { get; set; }
+
+        public User User { get; set; } = null!;
     }
 }

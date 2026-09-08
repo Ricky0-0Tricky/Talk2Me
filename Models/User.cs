@@ -45,5 +45,8 @@ namespace Talk2Me.Models
 
         // A User can have many Messages (1 -> N)
         public ICollection<Message> Messages { get; set; } = new List<Message>();
+
+        // A User can have many Notifications (1 -> N)
+        public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
     }
 }
