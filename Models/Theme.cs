@@ -15,5 +15,8 @@ namespace Talk2Me.Models
 
         [Display(Name = "Creation Date")]
         public DateTimeOffset CreationDate = DateTimeOffset.UtcNow;
+
+        // A Theme can have many Forums (1 -> N)
+        public ICollection<Forum> Forums { get; set; } = new List<Forum>();
     }
 }

@@ -9,10 +9,13 @@ namespace Talk2Me.Models
         [HiddenInput]
         public Guid FriendId { get; set; }
 
+        [Display(Name = "Favorite?")]
         public bool IsFavorite { get; set; }
 
+        [Display(Name = "Blocked?")]
         public bool IsBlocked { get; set; }
 
+        [Display(Name = "Block Date")]
         public DateTimeOffset? BlockedDate { get; set; } = null;
 
         // The User itself
