@@ -1,0 +1,16 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+
+namespace Talk2Me.Models
+{
+    public class Comment
+    {
+        [Key]
+        [HiddenInput]
+        public Guid CommentId { get; set; }
+
+        [Required(ErrorMessage = "The Comment's Content is Required.")]
+        [StringLength(250, MinimumLength = 3, ErrorMessage = "The Comment's Content should have a minimum of 3 characters.")]
+        public string Content { get; set; } = string.Empty;
+    }
+}
