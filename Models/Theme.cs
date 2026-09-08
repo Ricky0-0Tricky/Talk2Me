@@ -3,6 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Talk2Me.Models
 {
+    /// <summary>
+    /// Represents a theme a forum can have.
+    /// Stores its name and creation date.
+    /// </summary>
     public class Theme
     {
         [Key]

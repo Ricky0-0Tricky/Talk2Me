@@ -3,6 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Talk2Me.Models
 {
+    /// <summary>
+    /// Represents a user of the platform.
+    /// Stores the expected user info.
+    /// </summary>
     public class User
     {
         [Key]

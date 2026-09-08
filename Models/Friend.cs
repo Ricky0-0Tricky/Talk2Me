@@ -3,6 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Talk2Me.Models
 {
+    /// <summary>
+    /// Represents a friend of a user.
+    /// Stores the favorite/blocked state and block date.
+    /// </summary>
     public class Friend
     {
         [Key]

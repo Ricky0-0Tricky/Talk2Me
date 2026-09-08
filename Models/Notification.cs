@@ -3,6 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Talk2Me.Models
 {
+    /// <summary>
+    /// Represents a notification destined to a user.
+    /// Stores its type, content, read state and the creation date.
+    /// </summary>
     public class Notification
     {
         [Key]

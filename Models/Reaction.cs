@@ -3,6 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Talk2Me.Models
 {
+    /// <summary>
+    /// Represents a reaction on a forum or comment.
+    /// Stores if it was a positive or negative reaction.
+    /// </summary>
     public class Reaction
     {
         [Key]

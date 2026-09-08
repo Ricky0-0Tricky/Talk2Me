@@ -3,6 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Talk2Me.Models
 {
+    /// <summary>
+    /// Represents a friend request between two users.
+    /// Stores its status, messsage and request date.
+    /// </summary>
     public class FriendRequest
     {
         [Key]

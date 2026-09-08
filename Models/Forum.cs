@@ -3,6 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Talk2Me.Models
 {
+    /// <summary>
+    /// Represents a forum where users can comment and react to.
+    /// Stores its current state and creation date.
+    /// </summary>
     public class Forum
     {
         [Key]

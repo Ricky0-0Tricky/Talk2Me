@@ -3,6 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Talk2Me.Models
 {
+    /// <summary>
+    /// Represents a chat between two distinct users.
+    /// Stores the current state of it and associated messages.
+    /// </summary>
     public class Chat
     {
         [Key]

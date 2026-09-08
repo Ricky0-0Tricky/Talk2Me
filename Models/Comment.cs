@@ -3,6 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Talk2Me.Models
 {
+    /// <summary>
+    /// Represents a comment made on a forum.
+    /// Stores its content.
+    /// </summary>
     public class Comment
     {
         [Key]
@@ -18,6 +22,9 @@ namespace Talk2Me.Models
         public Guid UserId { get; set; }
 
         public User Creator { get; set; } = null!;
+
+        // A Comment can have many Photos (1 -> N)
+        public ICollection<Photo> Photos { get; set; } = new List<Photo>();
 
         // Parent comment
         public Guid? ParentCommentId { get; set; }
