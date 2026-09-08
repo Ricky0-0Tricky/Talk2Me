@@ -57,5 +57,8 @@ namespace Talk2Me.Models
 
         // A User can have many Received Friend Requests (1 -> N)
         public ICollection<FriendRequest> ReceivedFriendRequests { get; set; } = new List<FriendRequest>();
+
+        // A User can have many Forums (1 -> N)
+        public ICollection<Forum> Forums { get; set; } = new List<Forum>();
     }
 }

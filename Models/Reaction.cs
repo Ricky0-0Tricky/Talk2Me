@@ -12,5 +12,11 @@ namespace Talk2Me.Models
         [Display(Name = "Reaction")]
         [Required(ErrorMessage = "The Upvote State is Required.")]
         public bool IsUpvote {  get; set; }
+
+        // Many Reactions belong to a Forum
+        [Required]
+        public Guid ForumId { get; set; }
+
+        public Forum Forum { get; set; } = null!;
     }
 }
