@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Talk2Me.Models.Forum>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Creator)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Theme)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Creator.PasswordHash)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Theme.ThemeName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ForumId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ForumId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ForumId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
