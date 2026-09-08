@@ -9,6 +9,9 @@ namespace Talk2Me.Models
         [HiddenInput]
         public Guid UserId { get; set; } = Guid.NewGuid();
 
+        [Display(Name = "Profile Image")]
+        public byte[] ProfilePic { get; set; } = null!;
+
         [Display(Name = "Username")]
         [Required]
         [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "Username can only contain letters and numbers.")]
@@ -60,5 +63,8 @@ namespace Talk2Me.Models
 
         // A User can have many Forums (1 -> N)
         public ICollection<Forum> Forums { get; set; } = new List<Forum>();
+
+        // A User can have many Reactions (1 -> N)
+        public ICollection<Reaction> Reactions { get; set; } = new List<Reaction>();
     }
 }

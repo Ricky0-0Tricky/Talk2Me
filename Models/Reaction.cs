@@ -15,8 +15,20 @@ namespace Talk2Me.Models
 
         // Many Reactions belong to a Forum
         [Required]
-        public Guid ForumId { get; set; }
+        public Guid? ForumId { get; set; }
 
-        public Forum Forum { get; set; } = null!;
+        public Forum? Forum { get; set; } = null!;
+
+        // Many Reactions belong to a Comment
+        [Required]
+        public Guid? CommentId { get; set; }
+
+        public Comment? Comment { get; set; } = null!;
+
+        // Many Reactions belong to a User
+        [Required]
+        public Guid UserId { get; set; }
+
+        public User Reactor { get; set; } = null!;
     }
 }

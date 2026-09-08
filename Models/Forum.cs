@@ -13,7 +13,7 @@ namespace Talk2Me.Models
         public string State { get; set; } = "Active";
 
         [Display(Name = "Creation Date")]
-        public DateTimeOffset CreationDate = DateTimeOffset.UtcNow;
+        public DateTimeOffset CreationDate { get; set; } = DateTimeOffset.UtcNow;
 
         // Many Forums belong to a User
         [Required]
