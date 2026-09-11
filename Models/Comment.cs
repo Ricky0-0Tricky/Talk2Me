@@ -17,6 +17,15 @@ namespace Talk2Me.Models
         [StringLength(250, MinimumLength = 3, ErrorMessage = "The Comment's Content should have a minimum of 3 characters.")]
         public string Content { get; set; } = string.Empty;
 
+        [Display(Name = "Creation Date")]
+        public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+
+        [Display(Name = "Update Date")]
+        public DateTimeOffset? UpdatedAt { get; set; }
+
+        [Display(Name = "Deletion Date")]
+        public DateTimeOffset? DeletedAt { get; set; }
+
         // Many Comments belong to a User
         [Required]
         public Guid UserId { get; set; }

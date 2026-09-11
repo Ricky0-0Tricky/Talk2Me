@@ -21,6 +21,8 @@ namespace Talk2Me.Data
         public DbSet<Reaction> Reactions { get; set; }
         public DbSet<Theme> Themes { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<TicketPhoto> TicketPhotos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -151,6 +153,27 @@ namespace Talk2Me.Data
                 .WithMany()
                 .HasForeignKey(r => r.CommentId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Ticket -> User
+            modelBuilder.Entity<Ticket>()
+                .HasOne(t => t.User)
+                .WithMany()
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Ticket -> Admin
+            modelBuilder.Entity<Ticket>()
+               .HasOne(t => t.Admin)
+               .WithMany()
+               .HasForeignKey(t => t.AdminID)
+               .OnDelete(DeleteBehavior.Restrict);
+
+            // Ticket -> TicketPhoto
+            modelBuilder.Entity<TicketPhoto>()
+             .HasOne(p => p.Ticket)
+             .WithMany(t => t.Photos)
+             .HasForeignKey(p => p.TicketId)
+             .OnDelete(DeleteBehavior.Cascade);
 
             // Indexes and Constraints
 

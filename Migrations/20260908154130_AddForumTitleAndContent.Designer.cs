@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Talk2Me.Data;
 
@@ -11,9 +12,11 @@ using Talk2Me.Data;
 namespace Talk2Me.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260908154130_AddForumTitleAndContent")]
+    partial class AddForumTitleAndContent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,20 +61,11 @@ namespace Talk2Me.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("varchar(250)");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTimeOffset?>("DeletedAt")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<Guid>("ForumId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid?>("ParentCommentId")
                         .HasColumnType("char(36)");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
@@ -317,65 +311,6 @@ namespace Talk2Me.Migrations
                     b.ToTable("Themes");
                 });
 
-            modelBuilder.Entity("Talk2Me.Models.Ticket", b =>
-                {
-                    b.Property<Guid>("TicketId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("AdminID")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTimeOffset?>("ResolvedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("TicketId");
-
-                    b.HasIndex("AdminID");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Tickets");
-                });
-
-            modelBuilder.Entity("Talk2Me.Models.TicketPhoto", b =>
-                {
-                    b.Property<Guid>("TicketPhotoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<byte[]>("Image")
-                        .IsRequired()
-                        .HasColumnType("longblob");
-
-                    b.Property<Guid>("TicketId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("TicketPhotoId");
-
-                    b.HasIndex("TicketId");
-
-                    b.ToTable("TicketPhotos");
-                });
-
             modelBuilder.Entity("Talk2Me.Models.User", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -591,36 +526,6 @@ namespace Talk2Me.Migrations
                     b.Navigation("Reactor");
                 });
 
-            modelBuilder.Entity("Talk2Me.Models.Ticket", b =>
-                {
-                    b.HasOne("Talk2Me.Models.User", "Admin")
-                        .WithMany()
-                        .HasForeignKey("AdminID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Talk2Me.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Admin");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Talk2Me.Models.TicketPhoto", b =>
-                {
-                    b.HasOne("Talk2Me.Models.Ticket", "Ticket")
-                        .WithMany("Photos")
-                        .HasForeignKey("TicketId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ticket");
-                });
-
             modelBuilder.Entity("Talk2Me.Models.Chat", b =>
                 {
                     b.Navigation("Messages");
@@ -641,11 +546,6 @@ namespace Talk2Me.Migrations
             modelBuilder.Entity("Talk2Me.Models.Theme", b =>
                 {
                     b.Navigation("Forums");
-                });
-
-            modelBuilder.Entity("Talk2Me.Models.Ticket", b =>
-                {
-                    b.Navigation("Photos");
                 });
 
             modelBuilder.Entity("Talk2Me.Models.User", b =>
