@@ -23,6 +23,10 @@ namespace Talk2Me.Models
         public string UserName { get; set; } = string.Empty;
 
         [Required]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required]
         [StringLength(255, MinimumLength = 5, ErrorMessage = "The password should have a minimum of 5 characters.")]
         public string PasswordHash { get; set; } = string.Empty;
 
