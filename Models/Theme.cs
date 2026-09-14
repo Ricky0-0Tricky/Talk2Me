@@ -15,6 +15,7 @@ namespace Talk2Me.Models
 
         [Display(Name = "Theme")]
         [Required(ErrorMessage = "The Theme's Name is Required.")]
+        [StringLength(100, MinimumLength = 3, ErrorMessage = "The Theme's Name must be between 3 and 100 characters.")]
         public string ThemeName { get; set; } = string.Empty;
 
         [Display(Name = "Creation Date")]

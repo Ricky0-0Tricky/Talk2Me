@@ -1,158 +1,79 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Talk2Me.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using Talk2Me.Data.Services;
 using Talk2Me.Models;
 
 namespace Talk2Me.Controllers
 {
     public class ThemesController : Controller
     {
-        private readonly AppDbContext _context;
+        /// <summary>
+        /// Themes Service used to manage Themes in the database.
+        /// </summary>
+        private readonly IThemesService _themesService;
 
-        public ThemesController(AppDbContext context)
+        /// <summary>
+        /// Themes Controller Constructor.
+        /// Initializes the controller with the provided IThemesService.
+        /// </summary>
+        public ThemesController(IThemesService themesService)
         {
-            _context = context;
+            _themesService = themesService;
         }
 
-        // GET: Themes
+        /// <summary>
+        /// Shows the Themes Index View.
+        /// </summary>
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Themes.ToListAsync());
+            var themes = await _themesService.GetAllThemes();
+            return View(themes);
         }
 
-        // GET: Themes/Details/5
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var theme = await _context.Themes
-                .FirstOrDefaultAsync(m => m.ThemeId == id);
-            if (theme == null)
-            {
-                return NotFound();
-            }
-
-            return View(theme);
-        }
-
-        // GET: Themes/Create
+        /// <summary>
+        /// Shows the Themes Create View.
+        /// </summary>
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Themes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Creates a new Theme and redirects to the Themes Index View.
+        /// </summary>
+        /// <param name="theme">Theme Object</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ThemeId,ThemeName,CreationDate")] Theme theme)
+        public async Task<IActionResult> Create([Bind("ThemeId,ThemeName")] Theme theme)
         {
             if (ModelState.IsValid)
             {
                 theme.ThemeId = Guid.NewGuid();
-                _context.Add(theme);
-                await _context.SaveChangesAsync();
+                await _themesService.CreateTheme(theme);
                 return RedirectToAction(nameof(Index));
             }
             return View(theme);
         }
 
-        // GET: Themes/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var theme = await _context.Themes.FindAsync(id);
-            if (theme == null)
-            {
-                return NotFound();
-            }
-            return View(theme);
-        }
-
-        // POST: Themes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ThemeId,ThemeName,CreationDate")] Theme theme)
-        {
-            if (id != theme.ThemeId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(theme);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ThemeExists(theme.ThemeId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(theme);
-        }
-
-        // GET: Themes/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var theme = await _context.Themes
-                .FirstOrDefaultAsync(m => m.ThemeId == id);
-            if (theme == null)
-            {
-                return NotFound();
-            }
-
-            return View(theme);
-        }
-
-        // POST: Themes/Delete/5
+        /// <summary>
+        /// Deletes a Theme and redirects to the Themes Index View.
+        /// </summary>
+        /// <param name="id">Theme's ID</param>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var theme = await _context.Themes.FindAsync(id);
-            if (theme != null)
-            {
-                _context.Themes.Remove(theme);
-            }
-
-            await _context.SaveChangesAsync();
+            await _themesService.DeleteTheme(id);
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Checks if a Theme exists by its ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private bool ThemeExists(Guid id)
         {
-            return _context.Themes.Any(e => e.ThemeId == id);
+            return _themesService.GetThemeById(id).Result != null;
         }
     }
 }

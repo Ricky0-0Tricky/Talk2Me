@@ -1,12 +1,11 @@
 ﻿@model Talk2Me.Models.Theme
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create a Theme";
 }
 
-<h1>Create</h1>
+<h1>Create a Theme</h1>
 
-<h4>Theme</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -16,11 +15,6 @@
                 <label asp-for="ThemeName" class="control-label"></label>
                 <input asp-for="ThemeName" class="form-control" />
                 <span asp-validation-for="ThemeName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreationDate" class="control-label"></label>
-                <input asp-for="CreationDate" class="form-control" />
-                <span asp-validation-for="CreationDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
