@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Talk2Me.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -58,21 +58,60 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <div class="d-flex align-items-center gap-3 ms-auto">
+
+                            <a asp-controller="Account"
+                               asp-action="Settings"
+                               class="d-flex align-items-center text-decoration-none text-dark">
+
+                                <img src="@Url.Action("ProfileImage", "Users",
+                                          new { id = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value})"
+                                 alt="Profile"
+                                 class="navbar-profile-image" />
+                                <span class="ms-2">
+                                    @User.Identity.Name
+                                </span>
+                            </a>
+                            <form asp-controller="Account"
+                                  asp-action="Logout"
+                                  method="post"
+                                  class="m-0">
+                                @Html.AntiForgeryToken()
+                                <button type="submit"
+                                        class="btn btn-outline-danger btn-sm">
+                                    Leave
+                                </button>
+                            </form>
+                        </div>
+                    } else
+                    {
+                        <div class="d-flex align-items-center gap-2 ms-auto">
+
+                            <a asp-controller="Account"
+                               asp-action="Login"
+                               class="btn btn-outline-primary btn-sm">
+                                Login
+                            </a>
+
+                            <a asp-controller="Account"
+                               asp-action="SignUp"
+                               class="btn btn-primary btn-sm">
+                                Sign Up
+                            </a>
+                        </div>
+                    }
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container flex-grow-1">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Talk2Me - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

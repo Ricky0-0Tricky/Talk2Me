@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Talk2Me.Data.Interfaces;
 using Talk2Me.Models;
 
 namespace Talk2Me.Data.Services

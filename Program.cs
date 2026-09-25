@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Talk2Me.Data;
+using Talk2Me.Data.Interfaces;
 using Talk2Me.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +37,7 @@ builder.Services
 
 // Register Model Services
 builder.Services.AddScoped<IThemesService, ThemesService>();
+builder.Services.AddScoped<IAccountsService, AccountService>();
 
 var app = builder.Build();
 

@@ -1,22 +1,220 @@
-html {
-  font-size: 14px;
+.account-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
 }
 
-@media (min-width: 768px) {
-  html {
+.account-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 35px;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+    .account-card h1 {
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    .account-card h2 {
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+.account-subtitle {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #777;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 11px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-sizing: border-box;
+    }
+
+.account-button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
     font-size: 16px;
-  }
+    font-weight: 600;
+    margin-top: 10px;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.navbar-profile-image {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+.account-links {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 25px;
+    flex-wrap: wrap;
 }
 
-body {
-  margin-bottom: 60px;
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 15px;
+}
+
+.validation-summary {
+    margin-bottom: 15px;
+}
+
+.field-validation {
+    display: block;
+    margin-top: 5px;
+}
+
+.profile-upload {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.profile-preview {
+    width: 110px;
+    height: 110px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eee;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+    .profile-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.upload-button {
+    display: inline-block;
+    padding: 9px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #eee;
+}
+
+.profile-upload small {
+    display: block;
+    margin-top: 8px;
+    color: #777;
+}
+
+.settings-page {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.settings-card {
+    width: 100%;
+    max-width: 650px;
+    background: white;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.settings-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+    .settings-header h1 {
+        margin-bottom: 5px;
+    }
+
+    .settings-header p {
+        color: #777;
+        margin: 0;
+    }
+
+.settings-profile {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.settings-profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #eee;
+}
+
+.profile-upload {
+    flex: 1;
+}
+
+.settings-card hr {
+    margin: 30px 0;
+}
+
+.settings-card h3 {
+    margin-bottom: 5px;
+}
+
+.settings-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+@media (max-width: 600px) {
+
+    .settings-card {
+        padding: 25px 20px;
+    }
+
+    .settings-profile {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .profile-upload {
+        width: 100%;
+    }
+
+    .settings-actions {
+        flex-direction: column;
+    }
+
+        .settings-actions .btn {
+            width: 100%;
+        }
 }
