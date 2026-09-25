@@ -1,0 +1,182 @@
+﻿@model Talk2Me.ViewModels.SignUpViewModel
+
+@{
+    ViewData["Title"] = "Sign Up";
+}
+
+<div class="account-container">
+
+    <div class="account-card">
+        <h2>Create your account</h2>
+
+        <p class="account-subtitle">
+            Join the conversation.
+        </p>
+
+
+        <form asp-action="SignUp"
+              asp-controller="Account"
+              method="post"
+              enctype="multipart/form-data">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly"
+                 class="validation-summary">
+            </div>
+
+            <div class="profile-upload">
+
+                <div class="profile-preview">
+
+                    <span id="previewText">
+                        ?
+                    </span>
+
+                    <img id="profilePreview"
+                         alt="Profile preview"
+                         style="display:none;" />
+
+                </div>
+
+
+                <label for="ProfilePic"
+                       class="upload-button">
+                    Choose Profile Picture
+                </label>
+
+                <input asp-for="ProfilePic"
+                       id="ProfilePic"
+                       type="file"
+                       accept=".jpg,.jpeg,.png,.webp"
+                       hidden />
+
+                <span asp-validation-for="ProfilePic"
+                      class="field-validation">
+                </span>
+
+                <small>
+                    JPG, PNG or WebP · Maximum 5 MB
+                </small>
+
+            </div>
+
+            <div class="form-group">
+
+                <label asp-for="UserName"></label>
+
+                <input asp-for="UserName"
+                       autocomplete="username" />
+
+                <span asp-validation-for="UserName"
+                      class="field-validation">
+                </span>
+
+            </div>
+
+            <div class="form-group">
+
+                <label asp-for="Email"></label>
+
+                <input asp-for="Email"
+                       type="email"
+                       autocomplete="email" />
+
+                <span asp-validation-for="Email"
+                      class="field-validation">
+                </span>
+
+            </div>
+
+            <div class="form-group">
+
+                <label asp-for="Password"></label>
+
+                <input asp-for="Password"
+                       autocomplete="new-password" />
+
+                <span asp-validation-for="Password"
+                      class="field-validation">
+                </span>
+
+            </div>
+
+            <div class="form-group">
+
+                <label asp-for="ConfirmPassword">Confirmation Password</label>
+
+                <input asp-for="ConfirmPassword"
+                       autocomplete="new-password" />
+
+                <span asp-validation-for="ConfirmPassword"
+                      class="field-validation">
+                </span>
+
+            </div>
+
+
+            <button type="submit"
+                    class="account-button">
+                Create Account
+            </button>
+
+        </form>
+
+
+        <div class="account-links">
+
+            <span>
+                Already have an account?
+            </span>
+
+            <a asp-controller="Account"
+               asp-action="Login">
+                Log in
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        const input =
+            document.getElementById("ProfilePic");
+
+        const preview =
+            document.getElementById("profilePreview");
+
+        const previewText =
+            document.getElementById("previewText");
+
+
+        input.addEventListener("change", function () {
+
+            const file = this.files[0];
+
+            if (!file)
+                return;
+
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+
+                preview.src = event.target.result;
+
+                preview.style.display = "block";
+
+                previewText.style.display = "none";
+            };
+
+            reader.readAsDataURL(file);
+        });
+
+    </script>
+}

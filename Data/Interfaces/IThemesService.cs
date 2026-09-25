@@ -1,6 +1,6 @@
 ﻿using Talk2Me.Models;
 
-namespace Talk2Me.Data.Services
+namespace Talk2Me.Data.Interfaces
 {
     public interface IThemesService
     {
