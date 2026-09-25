@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SixLabors.ImageSharp;
 using Talk2Me.Data;
 using Talk2Me.Models;
 
 namespace Talk2Me.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly AppDbContext _context;
@@ -148,6 +146,36 @@ namespace Talk2Me.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> ProfileImage(Guid id)
+        {
+            var user = await _context.Users.FindAsync(id);
+
+            if (user == null ||
+                user.ProfilePic == null ||
+                user.ProfilePic.Length == 0)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                using var image = Image.Load(user.ProfilePic);
+
+                var contentType = image.Metadata.DecodedImageFormat?.DefaultMimeType;
+
+                if (string.IsNullOrEmpty(contentType))
+                {
+                    return NotFound();
+                }
+
+                return File(user.ProfilePic, contentType);
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
         private bool UserExists(Guid id)

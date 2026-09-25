@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Talk2Me.Data.Interfaces;
 using Talk2Me.Models;
 
 namespace Talk2Me.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ThemesController : Controller
     {
         /// <summary>
