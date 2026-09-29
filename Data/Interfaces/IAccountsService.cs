@@ -3,6 +3,7 @@ using Talk2Me.ViewModels;
 
 public interface IAccountsService
 {
+    Task<IEnumerable<User>> GetAllUsers();
     Task<User?> GetUserById(Guid userId);
     Task<User?> GetUserByUsername(string username);
     Task<bool> UsernameExists(string username);

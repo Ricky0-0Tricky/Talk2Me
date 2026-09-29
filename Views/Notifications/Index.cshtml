@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Talk2Me.Models.Notification>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Notifications";
 }
 
-<h1>Index</h1>
+<h1>Notifications Center</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create a Notification</a>
 </p>
 <table class="table">
     <thead>
@@ -19,41 +19,68 @@
                 @Html.DisplayNameFor(model => model.Content)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsRead)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsRead)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Email)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.NotificationId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.NotificationId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.NotificationId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr id="notification-@item.NotificationId">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    <button type="button"
+                            class="btn btn-link p-0 see-notification"
+                            data-id="@item.NotificationId"
+                            data-url="@Url.Action("SeeNotification", "Notifications")"
+                            title="See notification">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<script>
+    document.querySelectorAll('.see-notification').forEach(button => {
+        button.addEventListener('click', async function () {
+
+            const notificationId = this.dataset.id;
+            const url = this.dataset.url + '?id=' + notificationId;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST'
+                });
+
+                if (!response.ok) {
+                    return;
+                }
+
+                const row = document.getElementById(
+                    'notification-' + notificationId
+                );
+
+                row.style.transition = 'opacity 0.3s ease';
+                row.style.opacity = '0';
+
+                setTimeout(() => {
+                    row.remove();
+                }, 300);
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+</script>

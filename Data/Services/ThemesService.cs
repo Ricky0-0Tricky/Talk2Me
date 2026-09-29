@@ -12,7 +12,7 @@ namespace Talk2Me.Data.Services
         /// Themes Service Constructor. 
         /// Initializes the service with the provided AppDbContext.
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">App's Database Context</param>
         public ThemesService(AppDbContext context) {
             _context = context;
         }
@@ -20,7 +20,6 @@ namespace Talk2Me.Data.Services
         /// <summary>
         /// Obtains all themes from the database.
         /// </summary>
-        /// <returns></returns>
         public async Task<IEnumerable<Theme>> GetAllThemes()
         {
             var themes = await _context.Themes.ToListAsync();

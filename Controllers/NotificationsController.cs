@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using System.Security.Claims;
 using Talk2Me.Data;
+using Talk2Me.Data.Interfaces;
 using Talk2Me.Models;
 
 namespace Talk2Me.Controllers
@@ -14,154 +12,111 @@ namespace Talk2Me.Controllers
     [Authorize]
     public class NotificationsController : Controller
     {
-        private readonly AppDbContext _context;
+        /// <summary>
+        /// Notifications Service used to manage Notifications in the database.
+        /// </summary>
+        private readonly INotificationsService _notificationsService;
 
-        public NotificationsController(AppDbContext context)
+        /// <summary>
+        /// Accounts Service used to manage Accounts in the database.
+        /// </summary>
+        private readonly IAccountsService _accountsService;
+
+        /// <summary>
+        /// Notifications Controller Constructor.
+        /// Initializes the controller with the provided INotificationsService and IAccountService.
+        public NotificationsController(INotificationsService notificationsService, IAccountsService accountsService)
         {
-            _context = context;
+            _notificationsService = notificationsService;
+            _accountsService = accountsService;
         }
 
-        // GET: Notifications
+        /// <summary>
+        /// Shows the Notifications Index View.
+        /// </summary>
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Notifications.Include(n => n.User);
-            return View(await appDbContext.ToListAsync());
+            var notifications = await _notificationsService.GetAllNotifications(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            return View(notifications);
         }
 
-        // GET: Notifications/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        /// <summary>
+        /// Shows the Notifications Create View.
+        /// </summary>
+        public async Task<IActionResult> Create()
         {
-            if (id == null)
+            ViewData["Type"] = new SelectList(new List<SelectListItem>
             {
-                return NotFound();
-            }
-
-            var notification = await _context.Notifications
-                .Include(n => n.User)
-                .FirstOrDefaultAsync(m => m.NotificationId == id);
-            if (notification == null)
-            {
-                return NotFound();
-            }
-
-            return View(notification);
-        }
-
-        // GET: Notifications/Create
-        public IActionResult Create()
-        {
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "PasswordHash");
+                new SelectListItem { Value = "Warning", Text = "Warning"}, 
+                new SelectListItem { Value = "Info", Text = "Info" }, 
+                new SelectListItem { Value = "Success", Text = "Success" }
+            }, "Value", "Text");
+            ViewData["UserId"] = new SelectList(await _accountsService.GetAllUsers(), "UserId", "UserName");
             return View();
         }
 
-        // POST: Notifications/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Sets a Notification as read and redirects to the Notifications Index View.
+        /// </summary>
+        /// <param name="id">Notification's ID</param>
+        [HttpPost]
+        public async Task<IActionResult> SeeNotification(Guid id)
+        {
+            var notification = await _notificationsService.SeeNotification(id);
+
+            if (notification == null)
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
+
+
+        /// <summary>
+        /// Creates a new Notification and redirects to the Notifications Index View.
+        /// </summary>
+        /// <param name="notification">Notification Object</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("NotificationId,Type,Content,IsRead,CreatedAt,UserId")] Notification notification)
+        public async Task<IActionResult> Create([Bind("NotificationId,Type,Content,CreatedAt,UserId")] Notification notification)
         {
+            var user = await _accountsService.GetUserById(notification.UserId);
+            notification.User = user;
+
+            ModelState.Remove(nameof(Notification.User));
             if (ModelState.IsValid)
             {
                 notification.NotificationId = Guid.NewGuid();
-                _context.Add(notification);
-                await _context.SaveChangesAsync();
+                notification.IsRead = false;
+                notification.CreatedAt = DateTimeOffset.UtcNow;
+                await _notificationsService.CreateNotification(notification);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "PasswordHash", notification.UserId);
+            ViewData["UserId"] = new SelectList(await _accountsService.GetAllUsers(), "UserId", "UserName");
             return View(notification);
         }
 
-        // GET: Notifications/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var notification = await _context.Notifications.FindAsync(id);
-            if (notification == null)
-            {
-                return NotFound();
-            }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "PasswordHash", notification.UserId);
-            return View(notification);
-        }
-
-        // POST: Notifications/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("NotificationId,Type,Content,IsRead,CreatedAt,UserId")] Notification notification)
-        {
-            if (id != notification.NotificationId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(notification);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!NotificationExists(notification.NotificationId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "PasswordHash", notification.UserId);
-            return View(notification);
-        }
-
-        // GET: Notifications/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var notification = await _context.Notifications
-                .Include(n => n.User)
-                .FirstOrDefaultAsync(m => m.NotificationId == id);
-            if (notification == null)
-            {
-                return NotFound();
-            }
-
-            return View(notification);
-        }
-
-        // POST: Notifications/Delete/5
+        /// <summary>
+        /// Deletes a Notification and redirects to the Notifications Index View.
+        /// </summary>
+        /// <param name="id">Notification's ID</param>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var notification = await _context.Notifications.FindAsync(id);
-            if (notification != null)
-            {
-                _context.Notifications.Remove(notification);
-            }
-
-            await _context.SaveChangesAsync();
+            await _notificationsService.DeleteNotification(id);
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Checks if a Notification exists by its ID.
+        /// </summary>
+        /// <param name="id">Notification's ID</param>
+        /// <returns></returns>
         private bool NotificationExists(Guid id)
         {
-            return _context.Notifications.Any(e => e.NotificationId == id);
+            return _notificationsService.GetNotificationById(id) != null;
         }
     }
 }

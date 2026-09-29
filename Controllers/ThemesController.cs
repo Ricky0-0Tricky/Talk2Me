@@ -71,7 +71,7 @@ namespace Talk2Me.Controllers
         /// <summary>
         /// Checks if a Theme exists by its ID.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Theme's ID</param>
         /// <returns></returns>
         private bool ThemeExists(Guid id)
         {
